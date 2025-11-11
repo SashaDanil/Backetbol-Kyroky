@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block title %}Эпизоды - Баскетбол Куроку{% endblock %}
+
+{% block content %}
+<h1 class="text-center mb-4">Важные эпизоды</h1>
+
+<div class="mb-4">
+    <h4>Фильтр по сезонам:</h4>
+    <div class="btn-group" role="group">
+        <a href="{{ url_for('episodes') }}" class="btn btn-outline-primary {% if season == 'all' %}active{% endif %}">Все</a>
+        <a href="{{ url_for('episodes', season=1) }}" class="btn btn-outline-primary {% if season == '1' %}active{% endif %}">Сезон 1</a>
+        <a href="{{ url_for('episodes', season=2) }}" class="btn btn-outline-primary {% if season == '2' %}active{% endif %}">Сезон 2</a>
+        <a href="{{ url_for('episodes', season=3) }}" class="btn btn-outline-primary {% if season == '3' %}active{% endif %}">Сезон 3</a>
+    </div>
+</div>
+
+<div class="row">
+    {% for episode in episodes %}
+    <div class="col-lg-6 mb-4">
+        <div class="card episode-card {% if episode.importance == 'critical' %}border-warning{% endif %}">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-start">
+                    <h5 class="card-title">{{ episode.title }}</h5>
+                    <span class="badge bg-secondary">Сезон {{ episode.season }} • Эпизод {{ episode.episode_number }}</span>
+                </div>
+                {% if episode.importance == 'critical' %}
+                <span class="badge bg-warning text-dark mb-2">Критически важный</span>
+                {% elif episode.importance == 'high' %}
+                <span class="badge bg-info mb-2">Очень важный</span>
+                {% endif %}
+                
+                <p class="card-text">{{ episode.description }}</p>
+                
+                <div class="episode-meta mb-3">
+                    <small class="text-muted">
+                        <i class="fas fa-clock me-1"></i>{{ episode.duration }}
+                    </small>
+                </div>
+                
+                <div class="btn-group w-100" role="group">
+                    <a href="{{ url_for('episode_detail', episode_id=episode.id) }}" class="btn btn-outline-primary">
+                        <i class="fas fa-info-circle me-2"></i>Подробнее
+                    </a>
+                    {% if episode.rutub_url %}
+                    <a href="{{ episode.rutub_url }}" target="_blank" class="btn btn-warning rutube-btn">
+                        <i class="fas fa-play me-2"></i>Смотреть
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="alert alert-info mt-4">
+    <h5><i class="fas fa-info-circle me-2"></i>Как смотреть?</h5>
+    <p class="mb-0">Нажмите кнопку "Смотреть" чтобы перейти к просмотру эпизода на Rutube. Все серии доступны бесплатно!</p>
+</div>
+{% endblock %}

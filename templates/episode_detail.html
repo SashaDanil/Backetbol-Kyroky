@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Эпизод {{ episode.episode_number }} - {{ episode.title }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 mx-auto">
+        <a href="{{ url_for('episodes') }}" class="btn btn-secondary mb-3">
+            <i class="fas fa-arrow-left me-2"></i>Назад к эпизодам
+        </a>
+        
+        <div class="card">
+            <div class="card-header">
+                <h1 class="card-title">{{ episode.title }}</h1>
+                <h4 class="card-subtitle text-muted">
+                    Сезон {{ episode.season }} • Эпизод {{ episode.episode_number }}
+                    {% if episode.importance == 'critical' %}
+                    <span class="badge bg-warning text-dark ms-2">Критически важный</span>
+                    {% endif %}
+                </h4>
+            </div>
+            <div class="card-body">
+                <!-- Кнопка просмотра -->
+                {% if episode.rutub_url %}
+                <div class="text-center mb-4">
+                    <a href="{{ episode.rutub_url }}" target="_blank" class="btn btn-warning btn-lg rutube-btn-detail">
+                        <i class="fas fa-play me-2"></i>Смотреть эпизод на Rutube
+                    </a>
+                    <div class="mt-2">
+                        <small class="text-muted">
+                            <i class="fas fa-clock me-1"></i>Длительность: {{ episode.duration }}
+                        </small>
+                    </div>
+                </div>
+                {% endif %}
+                
+                <h4>Описание</h4>
+                <p class="lead">{{ episode.description }}</p>
+                
+                <h4 class="mt-4">Ключевые моменты</h4>
+                <ul class="list-group">
+                    {% for moment in episode.key_moments %}
+                    <li class="list-group-item">
+                        <i class="fas fa-basketball-ball text-warning me-2"></i>{{ moment }}
+                    </li>
+                    {% endfor %}
+                </ul>
+                
+                <div class="mt-4 p-3 bg-light rounded">
+                    <h5>Значимость эпизода</h5>
+                    <p>
+                        {% if episode.importance == 'critical' %}
+                        <i class="fas fa-exclamation-triangle text-warning me-2"></i>
+                        Этот эпизод является поворотным моментом в сюжете и оказывает значительное влияние 
+                        на развитие персонажей и общую историю.
+                        {% elif episode.importance == 'high' %}
+                        <i class="fas fa-star text-info me-2"></i>
+                        Важный эпизод, содержащий ключевые события для понимания сюжета.
+                        {% else %}
+                        <i class="fas fa-play text-secondary me-2"></i>
+                        Стандартный эпизод, развивающий сюжетную линию.
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

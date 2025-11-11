@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}Персонажи - Баскетбол Куроку{% endblock %}
+
+{% block content %}
+<h1 class="text-center mb-5">Персонажи Баскетбола Куроку</h1>
+
+<div class="row">
+    {% for character in characters %}
+    <div class="col-lg-6 mb-4">
+        <div class="card character-card">
+            <div class="card-body">
+                <div class="row align-items-center">
+                    <div class="col-md-4 text-center">
+                        <div class="character-image-container mb-3">
+                            <img src="{{ url_for('static', filename='images/characters/' + character.image) }}" 
+                                 alt="{{ character.name }}" 
+                                 class="character-image img-fluid rounded">
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <h3 class="card-title">{{ character.name }}</h3>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ character.japanese_name }}</h6>
+                        <p class="card-text">
+                            <strong>Позиция:</strong> {{ character.position }}<br>
+                            <strong>Команда:</strong> {{ character.team }}<br>
+                            <strong>Особость:</strong> {{ character.special_ability }}
+                        </p>
+                        <a href="{{ url_for('character_detail', character_id=character.id) }}" 
+                           class="btn btn-outline-primary">Подробнее</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
