@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Luxe Suede - Натуральная замша{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <h1><i class="fas fa-paw"></i> Luxe Suede</h1>
+                    <p class="tagline">Натуральная замша премиум-класса</p>
+                </div>
+                
+                <nav class="nav">
+                    <a href="{{ url_for('index') }}">Главная</a>
+                    <a href="{{ url_for('all_products') }}">Каталог</a>
+                    <a href="{{ url_for('about') }}">О нас</a>
+                    
+                    {% if current_user %}
+                        <a href="{{ url_for('view_cart') }}" class="cart-link">
+                            <i class="fas fa-shopping-cart"></i>
+                            Корзина
+                            {% if cart_count > 0 %}
+                                <span class="cart-count">{{ cart_count }}</span>
+                            {% endif %}
+                        </a>
+                        
+                        {% if is_admin %}
+                            <a href="{{ url_for('admin_panel') }}" class="admin-link">
+                                <i class="fas fa-cog"></i> Админ
+                            </a>
+                        {% endif %}
+                        
+                        <div class="user-menu">
+                            <span class="username">
+                                <i class="fas fa-user"></i> {{ current_user.username }}
+                            </span>
+                            <div class="dropdown">
+                                <a href="{{ url_for('profile') }}"><i class="fas fa-user-circle"></i> Профиль</a>
+                                <a href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Выйти</a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="auth-links">
+                            <a href="{{ url_for('login') }}" class="btn btn-secondary btn-small">
+                                <i class="fas fa-sign-in-alt"></i> Войти
+                            </a>
+                            <a href="{{ url_for('register') }}" class="btn btn-primary btn-small">
+                                <i class="fas fa-user-plus"></i> Регистрация
+                            </a>
+                        </div>
+                    {% endif %}
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Flash сообщения -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="flash flash-{{ category }}">
+                        {{ message }}
+                        <button class="flash-close" onclick="this.parentElement.style.display='none'">&times;</button>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <main class="main">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Luxe Suede</h3>
+                    <p>Продажа натуральной замши с 2010 года</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Контакты</h3>
+                    <p><i class="fas fa-phone"></i> +7 (999) 123-45-67</p>
+                    <p><i class="fas fa-envelope"></i> info@luxe-suede.ru</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Адрес</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Москва, ул. Кожевенная, 15</p>
+                </div>
+            </div>
+            <p class="copyright">&copy; {{ now.year if now else '2023' }} Luxe Suede. Все права защищены.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Управление выпадающим меню пользователя
+        document.addEventListener('DOMContentLoaded', function() {
+            const userMenu = document.querySelector('.user-menu');
+            if (userMenu) {
+                userMenu.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const dropdown = this.querySelector('.dropdown');
+                    dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+                });
+                
+                // Закрытие при клике вне меню
+                document.addEventListener('click', function() {
+                    const dropdowns = document.querySelectorAll('.dropdown');
+                    dropdowns.forEach(dropdown => {
+                        dropdown.style.display = 'none';
+                    });
+                });
+            }
+            
+            // Закрытие flash сообщений
+            const flashCloseButtons = document.querySelectorAll('.flash-close');
+            flashCloseButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    this.parentElement.style.display = 'none';
+                });
+            });
+            
+            // Автоматическое закрытие flash сообщений через 5 секунд
+            setTimeout(function() {
+                const flashes = document.querySelectorAll('.flash');
+                flashes.forEach(flash => {
+                    flash.style.opacity = '0';
+                    setTimeout(() => flash.style.display = 'none', 300);
+                });
+            }, 5000);
+            
+            // Подтверждение удаления
+            const deleteButtons = document.querySelectorAll('.delete-btn');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    if (!confirm('Вы уверены?')) {
+                        e.preventDefault();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

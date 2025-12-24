@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Корзина - Luxe Suede{% endblock %}
+
+{% block content %}
+<section class="cart-page">
+    <div class="container">
+        <h1 class="page-title">Корзина покупок</h1>
+        
+        {% if cart_items %}
+        <form action="{{ url_for('update_cart') }}" method="POST">
+            <div class="cart-items">
+                {% for item in cart_items %}
+                <div class="cart-item">
+                    <div class="cart-item-image">
+                        <img src="{{ url_for('static', filename='images/' + item.product.image) }}" alt="{{ item.product.name }}">
+                    </div>
+                    <div class="cart-item-info">
+                        <h3>{{ item.product.name }}</h3>
+                        <p class="cart-item-price">{{ item.product.price }} руб. × {{ item.quantity }} = {{ item.item_total }} руб.</p>
+                    </div>
+                    <div class="cart-item-quantity">
+                        <input type="number" name="quantity_{{ item.product.id }}" 
+                               value="{{ item.quantity }}" min="1" class="quantity-input">
+                    </div>
+                    <div class="cart-item-remove">
+                        <a href="{{ url_for('remove_from_cart', product_id=item.product.id) }}" 
+                           class="btn btn-danger delete-btn">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="cart-summary">
+                <h3>Итого: {{ total }} руб.</h3>
+                <div class="cart-actions">
+                    <button type="submit" class="btn btn-secondary">Обновить корзину</button>
+                    <a href="{{ url_for('checkout') }}" class="btn btn-primary">Оформить заказ</a>
+                </div>
+            </div>
+        </form>
+        {% else %}
+        <div class="empty-cart">
+            <i class="fas fa-shopping-cart fa-3x"></i>
+            <h2>Ваша корзина пуста</h2>
+            <p>Добавьте товары из каталога</p>
+            <a href="{{ url_for('all_products') }}" class="btn btn-primary">Перейти в каталог</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<script>
+// Автоматическое обновление при изменении количества
+document.addEventListener('DOMContentLoaded', function() {
+    const quantityInputs = document.querySelectorAll('.quantity-input');
+    quantityInputs.forEach(input => {
+        input.addEventListener('change', function() {
+            this.closest('form').submit();
+        });
+    });
+    
+    // Подтверждение удаления
+    const deleteButtons = document.querySelectorAll('.delete-btn');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            if (!confirm('Удалить товар из корзины?')) {
+                e.preventDefault();
+            }
+        });
+    });
+});
+</script>
+{% endblock %}

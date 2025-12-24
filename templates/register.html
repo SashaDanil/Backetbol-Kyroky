@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Регистрация - Luxe Suede{% endblock %}
+
+{% block content %}
+<section class="auth-page">
+    <div class="container">
+        <div class="auth-container">
+            <div class="auth-card">
+                <h1 class="page-title">Регистрация</h1>
+                
+                <form method="POST" action="{{ url_for('register') }}">
+                    <div class="form-group">
+                        <label for="username">Имя пользователя</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Пароль</label>
+                        <input type="password" id="password" name="password" required>
+                        <small>Минимум 6 символов</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirm_password">Подтверждение пароля</label>
+                        <input type="password" id="confirm_password" name="confirm_password" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-block">Зарегистрироваться</button>
+                </form>
+                
+                <div class="auth-links">
+                    <p>Уже есть аккаунт? <a href="{{ url_for('login') }}">Войдите</a></p>
+                    <p><a href="{{ url_for('index') }}">Вернуться на главную</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

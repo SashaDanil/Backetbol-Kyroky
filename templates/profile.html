@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Профиль - Luxe Suede{% endblock %}
+
+{% block content %}
+<section class="profile-page">
+    <div class="container">
+        <div class="profile-container">
+            <div class="profile-card">
+                <h1 class="page-title">Мой профиль</h1>
+                
+                <div class="profile-info">
+                    <div class="info-item">
+                        <strong>Имя пользователя:</strong>
+                        <span>{{ current_user.username }}</span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <strong>Email:</strong>
+                        <span>{{ current_user.email }}</span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <strong>Роль:</strong>
+                        <span class="role-badge role-{{ current_user.role }}">
+                            {{ 'Администратор' if current_user.role == 'admin' else 'Пользователь' }}
+                        </span>
+                    </div>
+                    
+                    <div class="info-item">
+                        <strong>Дата регистрации:</strong>
+                        <span>{{ user.created_at.strftime('%d.%m.%Y %H:%M') if user else '' }}</span>
+                    </div>
+                </div>
+                
+                <div class="profile-actions">
+                    <a href="{{ url_for('index') }}" class="btn btn-secondary">На главную</a>
+                    <a href="{{ url_for('all_products') }}" class="btn btn-primary">В каталог</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

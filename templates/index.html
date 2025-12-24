@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Главная - Натуральная замша{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <h2>Натуральная замша высшего качества</h2>
+            <p>Прямые поставки от производителей. Широкий выбор цветов и фактур.</p>
+            <a href="{{ url_for('all_products') }}" class="btn btn-primary">Смотреть каталог</a>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <div class="container">
+        <h2 class="section-title">Почему выбирают нашу замшу</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-leaf"></i>
+                <h3>100% натуральная</h3>
+                <p>Используем только натуральную кожу</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-globe-europe"></i>
+                <h3>Прямые поставки</h3>
+                <p>Импортируем из Италии и Испании</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-award"></i>
+                <h3>Гарантия качества</h3>
+                <p>Контроль на каждом этапе</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-truck"></i>
+                <h3>Быстрая доставка</h3>
+                <p>По всей России</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="products-preview">
+    <div class="container">
+        <h2 class="section-title">Популярные товары</h2>
+        <div class="products-grid">
+            {% for product in products %}
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="{{ url_for('static', filename='images/' + product.image) }}" alt="{{ product.name }}">
+                </div>
+                <div class="product-info">
+                    <h3>{{ product.name }}</h3>
+                    <p class="product-category">{{ product.category }}</p>
+                    <p class="product-price">{{ product.price }} руб.</p>
+                    <a href="{{ url_for('product_detail', product_id=product.id) }}" class="btn btn-secondary">Подробнее</a>
+                    <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn btn-primary">В корзину</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center">
+            <a href="{{ url_for('all_products') }}" class="btn btn-large">Весь каталог</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

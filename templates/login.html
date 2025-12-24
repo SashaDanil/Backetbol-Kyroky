@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Вход - Luxe Suede{% endblock %}
+
+{% block content %}
+<section class="auth-page">
+    <div class="container">
+        <div class="auth-container">
+            <div class="auth-card">
+                <h1 class="page-title">Вход в систему</h1>
+                
+                <form method="POST" action="{{ url_for('login') }}">
+                    <div class="form-group">
+                        <label for="username">Имя пользователя</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Пароль</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-block">Войти</button>
+                </form>
+                
+                <div class="auth-links">
+                    <p>Нет аккаунта? <a href="{{ url_for('register') }}">Зарегистрируйтесь</a></p>
+                    <p><a href="{{ url_for('index') }}">Вернуться на главную</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

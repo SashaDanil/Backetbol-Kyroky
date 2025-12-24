@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}О нас - Luxe Suede{% endblock %}
+
+{% block content %}
+<section class="about-page">
+    <div class="container">
+        <h1 class="page-title">О компании Luxe Suede</h1>
+        
+        <div class="about-content">
+            <div class="about-text">
+                <h2>Наша история</h2>
+                <p>Компания Luxe Suede была основана в 2010 году с целью предоставления рынку России высококачественной натуральной замши. За годы работы мы стали одним из ведущих поставщиков этого материала в стране.</p>
+                
+                <h2>Наша философия</h2>
+                <p>Мы верим в то, что качественные материалы - основа качественных изделий. Поэтому мы тщательно отбираем поставщиков и контролируем каждый этап поставки.</p>
+                
+                <h2>Почему выбирают нас</h2>
+                <ul class="advantages-list">
+                    <li><i class="fas fa-check-circle"></i> Прямые поставки от производителей</li>
+                    <li><i class="fas fa-check-circle"></i> 100% натуральная замша</li>
+                    <li><i class="fas fa-check-circle"></i> Широкий ассортимент цветов и фактур</li>
+                    <li><i class="fas fa-check-circle"></i> Конкурентные цены</li>
+                    <li><i class="fas fa-check-circle"></i> Быстрая доставка по всей России</li>
+                    <li><i class="fas fa-check-circle"></i> Профессиональные консультации</li>
+                </ul>
+            </div>
+            
+            <div class="about-image">
+                <img src="{{ url_for('static', filename='images/about.jpg') }}" alt="О Luxe Suede">
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

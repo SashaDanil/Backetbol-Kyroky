@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}{{ product.name }} - Luxe Suede{% endblock %}
+
+{% block content %}
+<section class="product-detail-page">
+    <div class="container">
+        <div class="product-detail">
+            <div class="product-images">
+                <div class="main-image">
+                    <img src="{{ url_for('static', filename='images/' + product.image) }}" alt="{{ product.name }}">
+                </div>
+            </div>
+            
+            <div class="product-info">
+                <h1>{{ product.name }}</h1>
+                <p class="product-price">{{ product.price }} руб.</p>
+                
+                <div class="product-specs">
+                    <div class="spec">
+                        <strong>Категория:</strong>
+                        <span>{{ product.category }}</span>
+                    </div>
+                    <div class="spec">
+                        <strong>Цвет:</strong>
+                        <span>{{ product.color }}</span>
+                    </div>
+                    <div class="spec">
+                        <strong>Толщина:</strong>
+                        <span>{{ product.thickness }}</span>
+                    </div>
+                </div>
+                
+                <p class="product-description">{{ product.description }}</p>
+                
+                <div class="product-actions">
+                    <a href="{{ url_for('add_to_cart', product_id=product.id) }}" class="btn btn-primary btn-large">
+                        <i class="fas fa-shopping-cart"></i> Добавить в корзину
+                    </a>
+                    <a href="{{ url_for('all_products') }}" class="btn btn-secondary">Назад в каталог</a>
+                </div>
+            </div>
+        </div>
+        
+        {% if related_products %}
+        <div class="related-products">
+            <h2>Сопутствующие товары</h2>
+            <div class="products-grid">
+                {% for related_product in related_products %}
+                <div class="product-card">
+                    <div class="product-image">
+                        <img src="{{ url_for('static', filename='images/' + related_product.image) }}" alt="{{ related_product.name }}">
+                    </div>
+                    <div class="product-info">
+                        <h3>{{ related_product.name }}</h3>
+                        <p class="product-price">{{ related_product.price }} руб.</p>
+                        <a href="{{ url_for('product_detail', product_id=related_product.id) }}" class="btn btn-secondary">Подробнее</a>
+                        <a href="{{ url_for('add_to_cart', product_id=related_product.id) }}" class="btn btn-primary">В корзину</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

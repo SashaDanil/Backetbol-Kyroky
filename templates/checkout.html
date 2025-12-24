@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Оформление заказа - Luxe Suede{% endblock %}
+
+{% block content %}
+<section class="checkout-page">
+    <div class="container">
+        <h1 class="page-title">Оформление заказа</h1>
+        
+        {% if cart %}
+        <div class="checkout-container">
+            <div class="order-summary">
+                <h3>Ваш заказ</h3>
+                {% for item_id, item in cart.items() %}
+                <div class="order-item">
+                    <p>{{ item.name }} × {{ item.quantity }} = {{ item.price * item.quantity }} руб.</p>
+                </div>
+                {% endfor %}
+                <hr>
+                <h3>Итого: {{ total }} руб.</h3>
+            </div>
+            
+            <div class="checkout-form">
+                <h3>Данные для доставки</h3>
+                <form action="{{ url_for('place_order') }}" method="POST">
+                    <div class="form-group">
+                        <label for="name">ФИО:</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Телефон:</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Адрес доставки:</label>
+                        <textarea id="address" name="address" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="comment">Комментарий к заказу:</label>
+                        <textarea id="comment" name="comment" rows="3"></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Подтвердить заказ</button>
+                    <a href="{{ url_for('view_cart') }}" class="btn btn-secondary">Вернуться в корзину</a>
+                </form>
+            </div>
+        </div>
+        {% else %}
+        <div class="empty-cart">
+            <i class="fas fa-shopping-cart fa-3x"></i>
+            <h2>Ваша корзина пуста</h2>
+            <a href="{{ url_for('all_products') }}" class="btn btn-primary">Перейти в каталог</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Заказ принят - Luxe Suede{% endblock %}
+
+{% block content %}
+<section class="confirmation-page">
+    <div class="container">
+        <div class="confirmation-content">
+            <i class="fas fa-check-circle fa-5x" style="color: #28a745;"></i>
+            <h1 class="page-title">Заказ успешно оформлен!</h1>
+            <p>Спасибо за ваш заказ. Мы свяжемся с вами в ближайшее время для подтверждения.</p>
+            <p>Номер вашего заказа: #{{ order_number }}</p>
+            <div class="confirmation-actions">
+                <a href="{{ url_for('all_products') }}" class="btn btn-primary">Продолжить покупки</a>
+                <a href="{{ url_for('index') }}" class="btn btn-secondary">На главную</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

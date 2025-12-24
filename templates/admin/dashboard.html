@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Админ-панель - Luxe Suede{% endblock %}
+
+{% block content %}
+<section class="admin-page">
+    <div class="container">
+        <h1 class="page-title">Административная панель</h1>
+        
+        <div class="admin-stats">
+            <div class="stat-card">
+                <h3>Всего товаров</h3>
+                <p class="stat-number">{{ total_products }}</p>
+            </div>
+            <div class="stat-card">
+                <h3>Категории</h3>
+                <p class="stat-number">{{ categories_count }}</p>
+            </div>
+            <div class="stat-card">
+                <h3>Средняя цена</h3>
+                <p class="stat-number">{{ avg_price }} руб.</p>
+            </div>
+        </div>
+        
+        <div class="admin-links">
+            <a href="{{ url_for('manage_products') }}" class="admin-link-card">  <!-- Изменено на manage_products -->
+                <i class="fas fa-box"></i>
+                <h3>Управление товарами</h3>
+                <p>Добавление, редактирование и удаление товаров</p>
+            </a>
+            
+            <a href="{{ url_for('all_products') }}" class="admin-link-card">
+                <i class="fas fa-store"></i>
+                <h3>В магазин</h3>
+                <p>Перейти в каталог товаров</p>
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

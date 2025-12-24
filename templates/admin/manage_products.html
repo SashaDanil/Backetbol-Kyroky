@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Управление товарами - Luxe Suede{% endblock %}
+
+{% block content %}
+<section class="admin-page">
+    <div class="container">
+        <div class="admin-header">
+            <h1 class="page-title">Управление товарами</h1>
+            <a href="{{ url_for('admin_add_product') }}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Добавить товар
+            </a>
+            <a href="{{ url_for('admin_panel') }}" class="btn btn-secondary">
+                <i class="fas fa-arrow-left"></i> Назад в админ-панель
+            </a>
+        </div>
+        
+        {% if products %}
+        <div class="products-grid">
+            {% for product in products %}
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="{{ url_for('static', filename='images/' + product.image) }}" alt="{{ product.name }}">
+                </div>
+                <div class="product-info">
+                    <h3>{{ product.name }}</h3>
+                    <p class="product-description">{{ product.description[:80] }}...</p>
+                    <div class="product-details">
+                        <span class="detail"><i class="fas fa-palette"></i> {{ product.color }}</span>
+                        <span class="detail"><i class="fas fa-ruler"></i> {{ product.thickness }}</span>
+                    </div>
+                    <p class="product-price">{{ product.price }} руб.</p>
+                    <div class="product-actions">
+                        <a href="{{ url_for('product_detail', product_id=product.id) }}" class="btn btn-secondary btn-small">Просмотр</a>
+                        <a href="{{ url_for('admin_edit_product', product_id=product.id) }}" class="btn btn-primary btn-small">Редактировать</a>
+                        <a href="{{ url_for('admin_delete_product', product_id=product.id) }}" class="btn btn-danger btn-small delete-btn">Удалить</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i class="fas fa-box-open fa-3x"></i>
+            <h2>Товаров нет</h2>
+            <p>Добавьте первый товар</p>
+            <a href="{{ url_for('admin_add_product') }}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Добавить товар
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const deleteButtons = document.querySelectorAll('.delete-btn');
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            if (!confirm('Вы уверены, что хотите удалить этот товар?')) {
+                e.preventDefault();
+            }
+        });
+    });
+});
+</script>
+{% endblock %}
